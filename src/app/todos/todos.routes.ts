@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import { client } from "../../config/monogodb";
 const path = require("path")
 const fs = require("fs")
 const filePath = path.join(__dirname, '../../db/todo.json')
@@ -6,37 +7,60 @@ const filePath = path.join(__dirname, '../../db/todo.json')
 export const todosRouter = express.Router()
 
 
-todosRouter.get("/", (req: Request, res: Response) => {
-    const data = fs.readFileSync(filePath, {encoding: "utf-8"})
+todosRouter.get("/", async (req: Request, res: Response) => {
+    const db = await client.db("todosDB")
+    const collection = await db.collection("todos")
+
+
+    const cursor = collection.find({})
+    const todos = await cursor.toArray()
+
     
-    // console.log(data);
-    res.json({
-        message: 'from todos router',
-        data
+    res.json(todos)
+})
+
+
+todosRouter.post("/create-todo", async (req: Request, res: Response) => {
+
+    const { title, description, priority } = req.body
+
+
+
+    const db = await client.db("todosDB")
+    const collection = await db.collection("todos")
+    await collection.insertOne({
+        title: title,
+        description: description,
+        priority: priority,
+        isCompleted: false
     })
+    
+
+    const cursor = collection.find({})
+    const todos = await cursor.toArray()
+
+    
+    res.json(todos)
 })
 
 
-todosRouter.post('/create-todo', (req: Request, res: Response) => {
-    const {title, body}= req.body
-    console.log(title, body);
-    res.json('hello')
+
+
+
+todosRouter.get("/:title", (req: Request, res: Response) => {
+    const { title, body } = req.body
+    // console.log(title, body);
+    // res.json('hello')
 })
 
-todosRouter.get("/:title",(req: Request, res: Response) => {
-    const {title, body}= req.body
-    console.log(title, body);
-    res.json('hello')
+todosRouter.put("/update-todo/:title", (req: Request, res: Response) => {
+    const { title, body } = req.body
+    // console.log(title, body);
+    // res.json('hello')
 })
 
-todosRouter.put("/update-todo/:title",(req: Request, res: Response) => {
-    const {title, body}= req.body
-    console.log(title, body);
-    res.json('hello')
-})
-
-todosRouter.delete("/delete-todo/:title",(req: Request, res: Response) => {
-    const {title, body}= req.body
-    console.log(title, body);
-    res.json('hello')
+todosRouter.delete("/delete-todo/:title", (req: Request, res: Response) => {
+    const { title, body } = req.body
+    // console.log(title, body);
+    // res.json('hello')
 })

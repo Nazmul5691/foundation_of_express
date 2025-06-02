@@ -1,5 +1,5 @@
 import express, { Application, Request, Response } from 'express'
-import { todosRouter } from './todos/todos.routes'
+import { todosRouter } from './app/todos/todos.routes'
 const app: Application = express()
 const fs = require("fs")
 const path = require("path")
@@ -9,7 +9,7 @@ app.use(express.json())
 app.use("/todos", todosRouter)
 
 
-app.get('/', (req: Request, res: Response) => {
+app.get("/", (req: Request, res: Response) => {
     res.send('Hello World with express js')
 })
 
