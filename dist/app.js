@@ -9,15 +9,26 @@ const fs = require("fs");
 const path = require("path");
 const filePath = path.join(__dirname, '../db/todo.json');
 app.use(express_1.default.json());
+const todosRouter = express_1.default.Router();
+app.use("/todos", todosRouter);
+todosRouter.get("/all-todos", (req, res) => {
+    const data = fs.readFileSync(filePath, { encoding: "utf-8" });
+    // console.log(data);
+    res.json({
+        message: 'from todos router',
+        data
+    });
+});
 app.get('/', (req, res) => {
     res.send('Hello World with express js');
 });
-app.get('/todos/:title/:body', (req, res) => {
+// app.get('/todos/:title/:body', (req: Request, res: Response) => {
+app.get('/todos', (req, res) => {
     const data = fs.readFileSync(filePath, { encoding: "utf-8" });
     console.log(req.params);
     console.log(req.query);
     // console.log(data);
-    res.json();
+    res.json(data);
 });
 app.post('/todos/create-todo', (req, res) => {
     const data = req.body;
