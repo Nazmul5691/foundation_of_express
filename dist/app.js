@@ -4,37 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const todos_routes_1 = require("./todos/todos.routes");
 const app = (0, express_1.default)();
 const fs = require("fs");
 const path = require("path");
-const filePath = path.join(__dirname, '../db/todo.json');
 app.use(express_1.default.json());
-const todosRouter = express_1.default.Router();
-app.use("/todos", todosRouter);
-todosRouter.get("/all-todos", (req, res) => {
-    const data = fs.readFileSync(filePath, { encoding: "utf-8" });
-    // console.log(data);
-    res.json({
-        message: 'from todos router',
-        data
-    });
-});
+app.use("/todos", todos_routes_1.todosRouter);
 app.get('/', (req, res) => {
     res.send('Hello World with express js');
-});
-// app.get('/todos/:title/:body', (req: Request, res: Response) => {
-app.get('/todos', (req, res) => {
-    const data = fs.readFileSync(filePath, { encoding: "utf-8" });
-    console.log(req.params);
-    console.log(req.query);
-    // console.log(data);
-    res.json(data);
-});
-app.post('/todos/create-todo', (req, res) => {
-    const data = req.body;
-    const { title, body } = req.body;
-    console.log(title, body);
-    res.json('hello');
 });
 exports.default = app;
 /**
