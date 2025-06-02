@@ -12,10 +12,11 @@ app.get('/', (req: Request, res: Response) => {
     res.send('Hello World with express js')
 })
 
-app.get('/todos', (req: Request, res: Response) => {
+app.get('/todos/:title/:body', (req: Request, res: Response) => {
     const data = fs.readFileSync(filePath, {encoding: "utf-8"})
-
-    console.log(data);
+    console.log(req.params);
+    console.log(req.query);
+    // console.log(data);
     res.json()
 })
 

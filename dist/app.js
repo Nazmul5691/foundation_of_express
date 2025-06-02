@@ -12,9 +12,11 @@ app.use(express_1.default.json());
 app.get('/', (req, res) => {
     res.send('Hello World with express js');
 });
-app.get('/todos', (req, res) => {
+app.get('/todos/:title/:body', (req, res) => {
     const data = fs.readFileSync(filePath, { encoding: "utf-8" });
-    console.log(data);
+    console.log(req.params);
+    console.log(req.query);
+    // console.log(data);
     res.json();
 });
 app.post('/todos/create-todo', (req, res) => {
