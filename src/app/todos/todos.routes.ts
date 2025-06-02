@@ -18,9 +18,25 @@ todosRouter.get("/", (req: Request, res: Response) => {
 
 
 todosRouter.post('/create-todo', (req: Request, res: Response) => {
-    const data = req.body
     const {title, body}= req.body
+    console.log(title, body);
+    res.json('hello')
+})
 
+todosRouter.get("/:title",(req: Request, res: Response) => {
+    const {title, body}= req.body
+    console.log(title, body);
+    res.json('hello')
+})
+
+todosRouter.put("/update-todo/:title",(req: Request, res: Response) => {
+    const {title, body}= req.body
+    console.log(title, body);
+    res.json('hello')
+})
+
+todosRouter.delete("/delete-todo/:title",(req: Request, res: Response) => {
+    const {title, body}= req.body
     console.log(title, body);
     res.json('hello')
 })

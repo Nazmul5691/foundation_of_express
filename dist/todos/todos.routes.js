@@ -18,7 +18,21 @@ exports.todosRouter.get("/", (req, res) => {
     });
 });
 exports.todosRouter.post('/create-todo', (req, res) => {
-    const data = req.body;
+    const { title, body } = req.body;
+    console.log(title, body);
+    res.json('hello');
+});
+exports.todosRouter.get("/:title", (req, res) => {
+    const { title, body } = req.body;
+    console.log(title, body);
+    res.json('hello');
+});
+exports.todosRouter.put("/update-todo/:title", (req, res) => {
+    const { title, body } = req.body;
+    console.log(title, body);
+    res.json('hello');
+});
+exports.todosRouter.delete("/delete-todo/:title", (req, res) => {
     const { title, body } = req.body;
     console.log(title, body);
     res.json('hello');
