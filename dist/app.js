@@ -10,7 +10,10 @@ const fs = require("fs");
 const path = require("path");
 app.use(express_1.default.json());
 app.use("/todos", todos_routes_1.todosRouter);
-app.get("/", (req, res) => {
+app.get("/", (req, res, next) => {
+    console.log('i am middleware');
+    next();
+}, (req, res) => {
     res.send('Hello World with express js');
 });
 exports.default = app;
